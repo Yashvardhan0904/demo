@@ -1,0 +1,114 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  height: 100vh;
+  font-family: "Poppins", sans-serif;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at top left, #1e1e2f, #111);
+  overflow: hidden;
+}
+
+/* 🧠 Clean background effect */
+.background::before {
+  content: "";
+  position: absolute;
+  top: -100px;
+  left: -100px;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(90,132,255,0.4), transparent 70%);
+  border-radius: 50%;
+  filter: blur(80px);
+  animation: gentleGlow 6s ease-in-out infinite alternate;
+}
+
+@keyframes gentleGlow {
+  from { transform: translateY(0) scale(1); opacity: 0.7; }
+  to { transform: translateY(20px) scale(1.05); opacity: 1; }
+}
+
+/* 🪟 Main Card */
+.card {
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(25px);
+  border-radius: 20px;
+  padding: 45px 60px;
+  text-align: center;
+  box-shadow: 0 0 25px rgba(255, 255, 255, 0.05),
+              inset 0 0 10px rgba(255, 255, 255, 0.1);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0 40px rgba(255,255,255,0.1);
+}
+
+/* ✨ Title and hint */
+.title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  background: linear-gradient(to right, #7f7fff, #9afff8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hint {
+  font-size: 1rem;
+  color: #ddd;
+  margin-bottom: 25px;
+}
+
+/* 🐾 Animal image animation */
+.animal img {
+  width: 200px;
+  display: none;
+}
+
+.animal.show img {
+  display: block;
+  animation: quickPop 0.6s ease forwards;
+}
+
+@keyframes quickPop {
+  0% { transform: scale(0.5) translateY(80px); opacity: 0; }
+  70% { transform: scale(1.05) translateY(-10px); opacity: 1; }
+  100% { transform: scale(1) translateY(0); }
+}
+
+/* 🎵 Pulse while sound plays */
+.sound-active .card {
+  box-shadow: 0 0 25px rgba(90, 132, 255, 0.2), inset 0 0 15px rgba(90,132,255,0.2);
+  animation: pulseCard 1s ease-in-out infinite alternate;
+}
+
+@keyframes pulseCard {
+  from { transform: scale(1); box-shadow: 0 0 20px rgba(90,132,255,0.15); }
+  to { transform: scale(1.02); box-shadow: 0 0 35px rgba(90,132,255,0.3); }
+}
+
+/* ✅ Status text */
+.status {
+  margin-top: 25px;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #7fffce;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.status.active {
+  opacity: 1;
+  transform: translateY(0);
+}
