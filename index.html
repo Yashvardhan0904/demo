@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Animal Sound Typing</title>
+  <title>Sound Typing</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -12,6 +12,7 @@
   <div class="card">
     <h1 class="title"> Type to hear something amazing!</h1>
     <p class="hint">Try typing <strong>dog</strong>, <strong>goat</strong> etc..</p>
+    <input class ="input" type="text">
 
     <div id="overlay" class="overlay">
       <div id="animalBox" class="animal">
@@ -22,7 +23,7 @@
   </div>
 
   <audio id="animalAudio" preload="auto"></audio>
-  <audio id="errorAudio" preload="auto" src="sounds/error.mp3"></audio>
+  
   <script src="script.js"></script>
 </body>
 </html>
