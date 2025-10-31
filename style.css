@@ -16,7 +16,7 @@ body {
   overflow: hidden;
 }
 
-/* 🧠 Clean background effect */
+/* 🧠 Background Glow */
 .background::before {
   content: "";
   position: absolute;
@@ -30,13 +30,12 @@ body {
   animation: gentleGlow 6s ease-in-out infinite alternate;
 }
 
-
 @keyframes gentleGlow {
   from { transform: translateY(0) scale(1); opacity: 0.7; }
   to { transform: translateY(20px) scale(1.05); opacity: 1; }
 }
 
-/* 🎯 Stylish Compact Input Box */
+/* 🎯 Input Box */
 .input {
   width: 80%;
   max-width: 200px;
@@ -53,7 +52,7 @@ body {
   backdrop-filter: blur(12px);
   letter-spacing: 0.5px;
   caret-color: #7fffce;
-  margin-bottom: 20px; /* space before animal image */
+  margin-bottom: 20px;
 }
 
 .input::placeholder {
@@ -68,8 +67,7 @@ body {
   transform: scale(1.02);
 }
 
-
-/* 🪟 Main Card */
+/* 🪟 Card Container */
 .card {
   z-index: 10;
   background: rgba(255, 255, 255, 0.1);
@@ -87,7 +85,7 @@ body {
   box-shadow: 0 0 40px rgba(255,255,255,0.1);
 }
 
-/* ✨ Title and hint */
+/* ✨ Title & Hint */
 .title {
   font-size: 1.8rem;
   font-weight: 700;
@@ -103,26 +101,40 @@ body {
   margin-bottom: 25px;
 }
 
-/* 🐾 Animal image animation */
+/* 🐾 Centered Animal Image */
+.animal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-top: 20px;
+  position: relative;
+}
+
 .animal img {
   width: 200px;
+  height: auto;
   display: none;
+  margin: 0 auto;
 }
 
 .animal.show img {
   display: block;
-  animation: quickPop 0.6s ease forwards;
+  animation: bounceIn 0.7s ease forwards;
 }
 
-@keyframes quickPop {
-  0% { transform: scale(0.5) translateY(80px); opacity: 0; }
-  70% { transform: scale(1.05) translateY(-10px); opacity: 1; }
+/* 🪩 Bounce Effect */
+@keyframes bounceIn {
+  0% { transform: scale(0.3) translateY(100px); opacity: 0; }
+  60% { transform: scale(1.1) translateY(-10px); opacity: 1; }
+  80% { transform: scale(0.95) translateY(5px); }
   100% { transform: scale(1) translateY(0); }
 }
 
-/* 🎵 Pulse while sound plays */
+/* 🎵 Pulse While Sound Plays */
 .sound-active .card {
-  box-shadow: 0 0 25px rgba(90, 132, 255, 0.2), inset 0 0 15px rgba(90,132,255,0.2);
+  box-shadow: 0 0 25px rgba(90, 132, 255, 0.2),
+              inset 0 0 15px rgba(90,132,255,0.2);
   animation: pulseCard 1s ease-in-out infinite alternate;
 }
 
@@ -131,7 +143,7 @@ body {
   to { transform: scale(1.02); box-shadow: 0 0 35px rgba(90,132,255,0.3); }
 }
 
-/* ✅ Status text */
+/* ✅ Status Text */
 .status {
   margin-top: 25px;
   font-size: 1.3rem;
