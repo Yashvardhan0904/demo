@@ -4,17 +4,18 @@
     dog: { sound: "dog.mp3", image: "dog.png" },
     modi: { sound: "modiA.mp3", image: "modi.png" },
     goat: { sound: "ron.mp3", image: "cr.png" },
-    mamta: {sound: "mamta1.mp3", image: "mamta.png" },
-    luffy: {sound : "luffy.mp3", image: "Monkeyd.png" },
-    saitama :{sound : "saitama.mp3", image: "Saitama.png"}
+    mamta: { sound: "mamta1.mp3", image: "mamta.png" },
+    luffy: { sound: "luffy.mp3", image: "Monkeyd.png" },
+    saitama: { sound: "saitama.mp3", image: "Saitama.png" },
   };
 
   // 🎧 UI Elements
   const player = document.getElementById("animalAudio");
   const imageEl = document.getElementById("animalImg");
   const statusEl = document.getElementById("status");
-  const imageWrapper = document.getElementById("animalBox"); // ✅ fixed ID
+  const imageWrapper = document.getElementById("animalBox");
   const body = document.body;
+  const inputBox = document.querySelector(".input");
 
   let typedKeys = "";
   let soundActive = false;
@@ -24,31 +25,27 @@
     const data = CREATURE_LIBRARY[creatureName];
     if (!data) return;
 
-    // Reset any playing sound
     if (soundActive) {
       player.pause();
       player.currentTime = 0;
       resetVisuals();
     }
 
-    // Set image + sound
     imageEl.src = data.image;
     player.src = data.sound;
 
-    // Attempt to play
     player.currentTime = 0;
     const playPromise = player.play();
-    if (playPromise !== undefined)
+    if (playPromise !== undefined) {
       playPromise.catch(() => console.warn("⚠️ Autoplay blocked by browser."));
+    }
 
-    // Show visuals
     imageWrapper.classList.add("show");
     statusEl.textContent = `🎵 ${creatureName.toUpperCase()} says hello!`;
     statusEl.classList.add("active");
     body.classList.add("sound-active");
     soundActive = true;
 
-    // Reset when sound ends
     player.onended = resetVisuals;
   }
 
@@ -60,29 +57,50 @@
     soundActive = false;
   }
 
-  // 🎹 Detect typing
-  window.addEventListener("keydown", (e) => {
-    if (e.key.length === 1) {
-      typedKeys += e.key.toLowerCase();
-      if (typedKeys.length > 12) typedKeys = typedKeys.slice(-12);
+  // 🎹 Detect typing in input box
+  if (inputBox) {
+    inputBox.addEventListener("input", (e) => {
+      const value = e.target.value.toLowerCase();
 
       for (const name in CREATURE_LIBRARY) {
-        if (typedKeys.endsWith(name)) {
+        if (value.endsWith(name)) {
           playCreatureSound(name);
+          e.target.value = ""; // clear *after* match is found
           typedKeys = "";
           break;
         }
       }
+
+      // Keep track of what user typed
+      typedKeys = value;
+    });
+
+    // Auto focus input when page loads (for mobile keyboard)
+    window.addEventListener("load", () => {
+      setTimeout(() => inputBox.focus(), 500);
+    });
+  }
+
+  // ✅ Proper Mobile Audio Unlock
+  function unlockAudio() {
+    const silentPlay = player.play();
+    if (silentPlay !== undefined) {
+      silentPlay
+        .then(() => {
+          player.pause();
+          player.currentTime = 0;
+          console.log("✅ Audio unlocked for mobile playback");
+          document.removeEventListener("pointerdown", unlockAudio);
+          document.removeEventListener("touchstart", unlockAudio);
+        })
+        .catch(() => console.warn("⚠️ User tap required to unlock sound"));
     }
-  });
+  }
 
-  // 🖱️ Unlock audio for mobile
-  document.addEventListener("pointerdown", function unlockOnce() {
-    player.volume = player.volume;
-    document.removeEventListener("pointerdown", unlockOnce);
-  });
+  document.addEventListener("pointerdown", unlockAudio);
+  document.addEventListener("touchstart", unlockAudio);
 
-  // ⚠️ Handle errors
+  // ⚠️ Handle missing files
   player.addEventListener("error", () => {
     statusEl.style.color = "#ff4040";
     statusEl.textContent = "⚠️ Missing sound or image file!";
